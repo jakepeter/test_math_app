@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>単元選択</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+  <h1 class="mb-4">📘 中1 数学クイズ</h1>
+
+  <form action="/quiz" method="post">
+    <div class="mb-3">
+      <label for="unit" class="form-label">出題する単元を選んでください:</label>
+      <select name="unit" id="unit" class="form-select">
+        <option value="1">① 正負の数</option>
+        <option value="2">② 加法と減法</option>
+        <option value="3">③ 乗法と除法</option>
+        <option value="4">④ 正負の数の利用</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">スタート</button>
+  </form>
+</body>
+</html>
