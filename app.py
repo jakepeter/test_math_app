@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import random
+import os
 
 app = Flask(__name__)
 app.secret_key = "好きなランダムな文字列をここに"
@@ -59,12 +60,10 @@ def result():
 
     is_correct = (user_answer == correct_answer)
 
-    # 現在の問題番号をインクリメント
     current += 1
     session["current"] = current
 
     if current >= len(session["questions"]):
-        # 全問終了したら終了ページに遷移（テンプレートfinish.htmlを用意してください）
         return render_template("finish.html", total=len(session["questions"]))
 
     question, answer = session["questions"][current]
@@ -72,11 +71,13 @@ def result():
                            question=question,
                            answer=answer,
                            unit=unit,
-                           current=current+1,
+                           current=current + 1,
                            total=len(session["questions"]),
                            is_correct=is_correct,
                            user_answer=user_answer,
                            correct_answer=correct_answer)
 
+# Render対応の起動設定
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
