@@ -9,9 +9,14 @@
 <body class="container py-4">
 
   <h1 class="mb-4">📘 {{ '数学' if subject == 'math' else '理科' }} クイズ</h1>
-  <p>単元: {{ unit }}, 問題 {{ current }} / {{ total }}</p>
 
-  {% if is_correct is defined %}
+  {% if subject == 'math' %}
+    <p>単元: {{ unit }}, 問題 {{ current }} / {{ total }}</p>
+  {% else %}
+    <p>問題 {{ current }} / {{ total }}</p>
+  {% endif %}
+
+  {% if subject == 'math' and is_correct is defined %}
     {% if is_correct %}
       <div class="alert alert-success">正解！</div>
     {% else %}
@@ -19,16 +24,34 @@
         不正解。あなたの答え: {{ user_answer }} / 正しい答え: {{ correct_answer }}
       </div>
     {% endif %}
+  {% elif subject == 'science' and show_answer %}
+    <div class="alert alert-info">
+      答え：<strong>{{ answer }}</strong>
+    </div>
   {% endif %}
 
   <form action="/result" method="post">
     <div class="mb-3">
       <label class="form-label"><strong>問題:</strong> {{ question }}</label><br />
-      <input type="text" name="user_answer" class="form-control" required autocomplete="off" autofocus />
+
+      {% if subject == 'math' %}
+        <input type="text" name="user_answer" class="form-control" required autocomplete="off" autofocus />
+      {% else %}
+        <input type="hidden" name="user_answer" value="表示のみ" />
+      {% endif %}
+
       <input type="hidden" name="correct_answer" value="{{ answer }}" />
     </div>
 
-    <button type="submit" class="btn btn-primary">回答する</button>
+    <button type="submit" class="btn btn-primary">
+      {% if subject == 'math' %}
+        回答する
+      {% elif show_answer %}
+        次の問題へ
+      {% else %}
+        答えを見る
+      {% endif %}
+    </button>
   </form>
 
   <form action="/" method="get" class="mt-3">
