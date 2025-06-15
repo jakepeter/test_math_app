@@ -12,16 +12,25 @@
   </style>
 </head>
 <body class="container py-5">
-  <h1 class="mb-4 fs-2">単元を選んでください</h1>
+  <h1 class="mb-4 fs-2">{{ '数学' if subject == 'math' else '理科' }}の単元を選んでください</h1>
   <form method="POST" action="/quiz">
     {% if subject == "math" %}
       <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="1" id="m1" required><label class="form-check-label" for="m1">1. 正負の数</label></div>
       <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="2" id="m2"><label class="form-check-label" for="m2">2. 加法と減法</label></div>
       <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="3" id="m3"><label class="form-check-label" for="m3">3. 乗法と除法</label></div>
-      <div class="form-check mb-4"><input class="form-check-input" type="radio" name="unit" value="4" id="m4"><label class="form-check-label" for="m4">4. 正負の数の利用</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="4" id="m4"><label class="form-check-label" for="m4">4. 正負の数の利用</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="5" id="m5"><label class="form-check-label" for="m5">5. 文字と式</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="6" id="m6"><label class="form-check-label" for="m6">6. 式の計算</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="7" id="m7"><label class="form-check-label" for="m7">7. 一次方程式</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="8" id="m8"><label class="form-check-label" for="m8">8. 比例と反比例</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="9" id="m9"><label class="form-check-label" for="m9">9. 図形の基本</label></div>
+      <div class="form-check mb-4"><input class="form-check-input" type="radio" name="unit" value="10" id="m10"><label class="form-check-label" for="m10">10. 空間図形</label></div>
     {% elif subject == "science" %}
       <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="1" id="s1" required><label class="form-check-label" for="s1">1. 生物の観察</label></div>
-      <div class="form-check mb-4"><input class="form-check-input" type="radio" name="unit" value="2" id="s2"><label class="form-check-label" for="s2">2. 植物の分類</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="2" id="s2"><label class="form-check-label" for="s2">2. 植物の分類</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="3" id="s3"><label class="form-check-label" for="s3">3. 光合成と呼吸</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="unit" value="4" id="s4"><label class="form-check-label" for="s4">4. 物質の性質</label></div>
+      <div class="form-check mb-4"><input class="form-check-input" type="radio" name="unit" value="5" id="s5"><label class="form-check-label" for="s5">5. 水溶液とその性質</label></div>
     {% endif %}
     <button type="submit" class="btn btn-primary btn-lg w-100">クイズ開始</button>
   </form>

@@ -216,25 +216,54 @@ science_questions = {
     # 他の単元も追加可能
 }
 
+
 # 数学の問題生成
+
 def generate_math_question(unit):
-    if unit == "1":
-        a = random.randint(-10, 10)
+    if unit == "1":  # 正負の数
+        a = random.randint(-100, 100)
         return f"{a} は正の数ですか？", "はい" if a > 0 else "いいえ" if a < 0 else "ゼロ"
-    elif unit == "2":
-        a = random.randint(-10, 10)
-        b = random.randint(-10, 10)
+
+    elif unit == "2":  # 加法と減法
+        a, b = random.randint(-50, 50), random.randint(-50, 50)
         return f"{a} + ({b}) = ?", str(a + b)
-    elif unit == "3":
-        a = random.randint(-9, 9)
-        b = random.choice([i for i in range(-5, 6) if i != 0])
-        if random.choice([True, False]):
-            return f"{a} × {b} = ?", str(a * b)
-        else:
-            return f"{a * b} ÷ {b} = ?", str(a)
-    elif unit == "4":
-        temp = random.randint(-10, 35)
-        return f"気温が {temp}℃ のとき、0℃ より何℃ {('高い' if temp > 0 else '低い' if temp < 0 else '変わらない')}？", str(abs(temp))
+
+    elif unit == "3":  # 乗法と除法
+        a, b = random.randint(-10, 10), random.choice([i for i in range(-5, 6) if i != 0])
+        return f"{a} × {b} = ?", str(a * b)
+
+    elif unit == "4":  # 正負の数の利用
+        temp = random.randint(-20, 40)
+        label = "高い" if temp > 0 else "低い" if temp < 0 else "同じ"
+        return f"気温が {temp}℃ のとき、0℃ より何℃ {label}？", str(abs(temp))
+
+    elif unit == "5":  # 文字式の表し方
+        x = random.randint(1, 10)
+        return f"x = {x} のとき、2x + 3 の値は？", str(2 * x + 3)
+
+    elif unit == "6":  # 式の計算
+        a, b = random.randint(-10, 10), random.randint(-10, 10)
+        return f"(a = {a}, b = {b}) のとき、a - b の値は？", str(a - b)
+
+    elif unit == "7":  # 一次方程式
+        x = random.randint(1, 20)
+        a = random.randint(1, 5)
+        b = random.randint(0, 10)
+        return f"{a}x + {b} = {a * x + b} の解 x = ?", str(x)
+
+    elif unit == "8":  # 比例と反比例
+        x = random.randint(1, 10)
+        k = random.randint(1, 5)
+        return f"x = {x} のとき、比例関係 y = {k}x の y の値は？", str(k * x)
+
+    elif unit == "9":  # 平面図形
+        r = random.randint(1, 10)
+        return f"半径 {r}cm の円の面積（3.14使用）は？", str(round(3.14 * r * r, 2))
+
+    elif unit == "10":  # 空間図形
+        a, b, h = random.randint(1, 10), random.randint(1, 10), random.randint(1, 10)
+        return f"底面 {a}cm×{b}cm、高さ {h}cm の直方体の体積は？", str(a * b * h)
+
     else:
         return "無効な単元です", ""
 
@@ -254,19 +283,16 @@ def generate_questions(subject, unit, n=None):
     else:
         return [("無効な科目です", "")]
 
-# トップページ
 @app.route("/")
 def index():
     return render_template("index.html")
 
-# 科目選択
 @app.route("/select_subject", methods=["POST"])
 def select_subject():
     subject = request.form.get("subject")
     session["subject"] = subject
     return render_template("select_unit.html", subject=subject)
 
-# クイズ開始
 @app.route("/quiz", methods=["POST"])
 def quiz():
     subject = session.get("subject")
@@ -282,7 +308,6 @@ def quiz():
                            unit=unit, subject=subject, current=1,
                            total=len(questions), show_answer=False)
 
-# 回答処理
 @app.route("/result", methods=["POST"])
 def result():
     subject = session.get("subject", "")
@@ -336,6 +361,5 @@ def result():
                                user_answer=user_answer,
                                correct_answer=correct_answer)
 
-# アプリ起動
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5001)), debug=True)
